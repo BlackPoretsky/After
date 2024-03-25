@@ -7,11 +7,10 @@
 #include "AfterGameMode.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class AFTER_API AAfterGameMode : public AGameModeBase
 {
-	GENERATED_BODY()
-	
+    GENERATED_BODY()
 };

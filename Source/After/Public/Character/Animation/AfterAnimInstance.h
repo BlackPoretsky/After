@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
+#include "CoreMinimal.h"
 #include "AfterAnimInstance.generated.h"
 
 class AAfterCharacter;
@@ -11,7 +11,7 @@ class AAfterCharacter;
 UCLASS()
 class AFTER_API UAfterAnimInstance : public UAnimInstance
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
     UFUNCTION(BlueprintCallable)

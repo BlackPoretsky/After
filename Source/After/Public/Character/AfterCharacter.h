@@ -11,25 +11,24 @@ class UCameraComponent;
 class USoundCue;
 class UParticleSystem;
 class UAnimMontage;
+class AItem;
+class AWeapon;
 
 UCLASS()
 class AAfterCharacter : public ACharacter
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
-	AAfterCharacter();
+    // Sets default values for this character's properties
+    AAfterCharacter();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+    // Called when the game starts or when spawned
+    virtual void BeginPlay() override;
 
     void MoveForward(float Amount);
     void MoveRigth(float Amount);
-
-    void TurnAtRate(float Rate);
-    void LookUpAtRate(float Rate);
 
     void Turn(float Value);
     void LookUp(float Value);
@@ -43,8 +42,6 @@ protected:
 
     void CameraInterpZoom(float DeltaTime);
 
-    void SetLookRates();
-
     void CalculateCrosshairSpread(float DeltaTime);
 
     void StartCrosshairBulletFire();
@@ -52,7 +49,20 @@ protected:
     void FireButtonPressed();
     void FireButtonReleased();
 
+    void SelectButtonPressed();
+    void SelectButtonReleased();
+
     void StartFireRate();
+
+    bool TraceUnderCrosshair(FHitResult& OutHitResult, FVector& OutHitLocation);
+    void TraceForItems();
+
+    AWeapon* SpawnDefaultWeapon();
+    void EquipWeapon(AWeapon* WeaponToEquip);
+
+    void DropWeapon();
+
+    void SwapWeapon(AWeapon* WeaponToSwap);
 
     UFUNCTION()
     void AutoFireReset();
@@ -60,12 +70,12 @@ protected:
     UFUNCTION()
     void FinishCroshairBulletFire();
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+public:
+    // Called every frame
+    virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+    // Called to bind functionality to input
+    virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -73,12 +83,6 @@ private:
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
     UCameraComponent* FollowCamera;
-
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-    float BaseTurnRate;
-
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-    float BaseLookUpRate;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
     float HipTurnRate;
@@ -157,11 +161,29 @@ private:
     float AutomaticFireRate;
     FTimerHandle AutoFireTimer;
 
+    bool bShouldTraceForItems;
+    int8 OverlappedItemCount;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Item, meta = (AllowPrivateAccess = "true"))
+    AItem* TraceHitItemLastFrame;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
+    AWeapon* EquippedWeapon;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
+    TSubclassOf<AWeapon> DefaultWeaponClass;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
+    AItem* TraceHitItem;
+
 public:
     FORCEINLINE USpringArmComponent* GetSpringArmComponent() const { return SpringArmComponent; }
     FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
     FORCEINLINE bool GetAiming() const { return bAiming; };
+    FORCEINLINE int8 GetOverlappedItemConut() const { return OverlappedItemCount; }
 
     UFUNCTION(BlueprintCallable)
     float GetCrosshairSpreadMultiplier() const { return CrosshairSpreadMultiplier; };
+
+    void IncrementOverlappedItemCount(int8 Amount);
 };

@@ -1,6 +1,5 @@
 // Project After. Creator Egor Gorochkin.
 
-
 #include "Character/Animation/AfterAnimInstance.h"
 #include "After/Public/Character/AfterCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"

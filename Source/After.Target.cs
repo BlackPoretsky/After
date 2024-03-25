@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 public class AfterTarget : TargetRules
 {
-	public AfterTarget(TargetInfo Target) : base(Target)
-	{
-		Type = TargetType.Game;
-		DefaultBuildSettings = BuildSettingsVersion.V4;
-		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_3;
-		ExtraModuleNames.Add("After");
-	}
+    public AfterTarget(TargetInfo Target) : base(Target)
+    {
+        Type = TargetType.Game;
+        DefaultBuildSettings = BuildSettingsVersion.V4;
+        IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_3;
+        ExtraModuleNames.Add("After");
+    }
 }
